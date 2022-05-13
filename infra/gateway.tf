@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "dynamo-sample" {
   name = "dynamo-sample"
 }
 
-resource "aws_api_gateway_deployment" "example" {
+resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.dynamo-sample.id
 
   triggers = {
@@ -14,7 +14,7 @@ resource "aws_api_gateway_deployment" "example" {
       aws_api_gateway_resource.test.id,
       aws_api_gateway_method.test_get.id,
       aws_api_gateway_integration.test_integration.id,
-      data.archive_file.lambda-source.output_base64sha256,
+      data.aws_ecr_image.lambda_image.image_digest,
     ]))
   }
 
@@ -24,7 +24,7 @@ resource "aws_api_gateway_deployment" "example" {
 }
 
 resource "aws_api_gateway_stage" "test" {
-  deployment_id = aws_api_gateway_deployment.example.id
+  deployment_id = aws_api_gateway_deployment.deployment .id
   rest_api_id   = aws_api_gateway_rest_api.dynamo-sample.id
   stage_name    = "test"
   depends_on = [aws_cloudwatch_log_group.execution_logs]

@@ -1,12 +1,11 @@
 resource "aws_lambda_function" "test_lambda" {
-  filename      = data.archive_file.lambda-source.output_path
+  package_type  = "Image"
+  image_uri     = "${aws_ecr_repository.lambda_images.repository_url}:${data.aws_ecr_image.lambda_image.image_tag}"
   function_name = "lambda_test"
   role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "test.test_handler"
-
-  source_code_hash = data.archive_file.lambda-source.output_base64sha256
-
-  runtime = "python3.9"
+  image_config  {
+    command = [ "endpoints.test.test_handler" ]
+  }
 }
 
 resource "aws_lambda_permission" "allow_api" {
