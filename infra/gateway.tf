@@ -10,7 +10,12 @@ resource "aws_api_gateway_deployment" "example" {
   rest_api_id = aws_api_gateway_rest_api.dynamo-sample.id
 
   triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.dynamo-sample.id))
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.test.id,
+      aws_api_gateway_method.test_get.id,
+      aws_api_gateway_integration.test_integration.id,
+      data.archive_file.lambda-source.output_base64sha256,
+    ]))
   }
 
   lifecycle {
