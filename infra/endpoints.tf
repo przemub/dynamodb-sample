@@ -28,7 +28,7 @@ resource "aws_api_gateway_method" "test_get" {
   http_method   = "GET"
   resource_id   = aws_api_gateway_resource.test.id
   rest_api_id   = aws_api_gateway_resource.test.rest_api_id
-  depends_on    = [aws_api_gateway_resource.test]
+  api_key_required = true
 }
 
 resource "aws_api_gateway_integration" "test_integration" {
@@ -38,7 +38,6 @@ resource "aws_api_gateway_integration" "test_integration" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.test_lambda.invoke_arn
-  depends_on = [aws_api_gateway_method.test_get, aws_lambda_function.test_lambda]
 }
 
 resource "aws_lambda_function" "get_candidate_lambda" {
@@ -71,7 +70,7 @@ resource "aws_api_gateway_method" "candidate_get" {
   http_method   = "GET"
   resource_id   = aws_api_gateway_resource.candidate.id
   rest_api_id   = aws_api_gateway_resource.candidate.rest_api_id
-  depends_on    = [aws_api_gateway_resource.candidate]
+  api_key_required = true
 }
 
 resource "aws_api_gateway_integration" "candidate_get_integration" {
@@ -89,7 +88,7 @@ resource "aws_api_gateway_method" "candidate_post" {
   http_method   = "POST"
   resource_id   = aws_api_gateway_resource.candidate.id
   rest_api_id   = aws_api_gateway_resource.candidate.rest_api_id
-  depends_on    = [aws_api_gateway_resource.candidate]
+  api_key_required = true
 }
 
 resource "aws_lambda_function" "post_candidate_lambda" {
@@ -125,7 +124,7 @@ resource "aws_api_gateway_method" "candidate_delete" {
   http_method   = "DELETE"
   resource_id   = aws_api_gateway_resource.candidate.id
   rest_api_id   = aws_api_gateway_resource.candidate.rest_api_id
-  depends_on    = [aws_api_gateway_resource.candidate]
+  api_key_required = true
 }
 
 resource "aws_lambda_function" "delete_candidate_lambda" {

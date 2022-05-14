@@ -39,3 +39,23 @@ resource "aws_cloudwatch_log_group" "execution_logs" {
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.dynamo-sample.id}/test"
   retention_in_days = 7
 }
+
+resource "aws_api_gateway_api_key" "test" {
+  name = "test"
+}
+
+resource "aws_api_gateway_usage_plan" "test" {
+  name = "test"
+
+  api_stages {
+    api_id = aws_api_gateway_rest_api.dynamo-sample.id
+    stage  = aws_api_gateway_stage.test.stage_name
+  }
+}
+
+resource "aws_api_gateway_usage_plan_key" "test" {
+  key_id        = aws_api_gateway_api_key.test.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.test.id
+}
+
