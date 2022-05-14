@@ -3,7 +3,7 @@
 A very simple serverless API Gateway + Lambda + DynamoDB project, storing
 exam candidates behind a REST API. The project is deployed using Terraform.
 
-![Project structure](https://github.com/przemub/dynamodb-sample/raw/master/src/structure.png "Project structure")
+![Project structure](https://github.com/przemub/dynamodb-sample/raw/master/diagram.png "Project structure")
 
 ### Deployment
 
