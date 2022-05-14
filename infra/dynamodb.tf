@@ -19,3 +19,13 @@ resource "aws_dynamodb_table" "candidates" {
     projection_type = "ALL"
   }
 }
+
+resource "aws_dynamodb_table" "counters" {
+  hash_key = "counterName"
+  billing_mode = "PAY_PER_REQUEST"
+  name     = "counters"
+  attribute {
+    name = "counterName"
+    type = "S"
+  }
+}
